@@ -14,7 +14,6 @@ RUN apt-get update && \
 
 #Supervisord
 RUN mkdir -p /var/log/supervisor
-#CMD ["/usr/bin/supervisord", "-n"]
 
 #SSHD
 RUN mkdir /var/run/sshd && chmod 700 /var/run/sshd && \
@@ -50,11 +49,10 @@ RUN wget https://download.elasticsearch.org/logstash/logstash/logstash-1.4.0.tar
     rm logstash-*.tar.gz && \
     mv logstash-* logstash
 
-#Configuration
-ADD ./ /docker-elk
-
 VOLUME /logs
 VOLUME /shared
+
+ADD ./ /docker-elk
 
 RUN cd /docker-elk && \
     mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.saved && \
@@ -62,10 +60,8 @@ RUN cd /docker-elk && \
     cp supervisord-kibana.conf /etc/supervisor/conf.d && \
     cp logstash-forwarder.crt /logstash/logstash-forwarder.crt && \
     cp logstash-forwarder.key /logstash/logstash-forwarder.key && \
-#    ln -s /shared/custom_patterns /logstash/patterns/custom_patterns && \
     cp custom_dashboard.json /kibana/app/dashboards/custom_dashboard.json
 
-#80=ngnx, 9200=elasticsearch
 EXPOSE 22 80 9200
 
 CMD ln -s /shared/custom_patterns /logstash/patterns/custom_patterns && \
