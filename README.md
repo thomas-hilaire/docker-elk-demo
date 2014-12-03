@@ -11,7 +11,7 @@ Run Kibana, ElasticSearch, Logstash, and Ngnix in Docker.
 
 ### Run it
 
-    docker run --name elk-demo-test1 --rm -p 80:80 -p 9200:9200 -p 49021:49021 -p 49022:49022 -p 122:22 -p 9999:9999/udp -v /tmp/logs:/logs -v $PWD/docker:/shared elk-demo
+    docker run --name elk-demo-test1 --rm -p 80:80 -p 9200:9200 -v /tmp/logs:/logs -v $PWD/docker:/shared elk-demo
 
 ### To get a bash
 
@@ -36,6 +36,8 @@ To delete data:
     curl -XDELETE 'http://localhost:9200/_all/'
 
 ## Logstash
+http://grokdebug.herokuapp.com/
+
 To start Logstash:
 
     docker exec -ti elk-demo-test1 bash
